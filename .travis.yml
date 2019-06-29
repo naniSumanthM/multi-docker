@@ -1,0 +1,21 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t nani9571/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run nani9571/react-test npm test -- --coverage
+
+after_success:
+  - docker build -t nani9571/multi-client ./client
+  - docker build -t nani9571/multi-nginx ./nginx
+  - docker build -t nani9571/multi-server ./server
+  - docker build -t nani9571/multi-worker ./worker
+
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push nani9571/multi-client
+  - docker push nani9571/multi-nginx
+  - docker push nani9571/multi-server
+  - docker push nani9571/multi-worker
