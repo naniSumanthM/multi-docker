@@ -7,6 +7,8 @@ before_install:
 
 script:
   - docker run sumanth9571/react-test npm test -- --coverage
+# script:
+#   - docker run -e CI=true sumanth9571/react-test npm test
 
 after_success:
   - docker build -t sumanth9571/multi-client ./client
