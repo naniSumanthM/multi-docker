@@ -21,3 +21,16 @@ after_success:
   - docker push sumanth9571/multi-nginx
   - docker push sumanth9571/multi-server
   - docker push sumanth9571/multi-worker
+  
+deploy:
+  provider: elasticbeanstalk
+  region: "us-east-2"
+  app: "multi-docker"
+  env: "DockerReact-env"
+  bucket_name: "elasticbeanstalk-us-east-2-152736127367"
+  bucket_path: "docker-multi"
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: 
+    secure: "$AWS_SECRET_KEY"
